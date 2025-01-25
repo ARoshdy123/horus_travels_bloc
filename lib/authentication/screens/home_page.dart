@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:horus_travels_bloc/authentication/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/main_widgets/base_card.dart';
 
@@ -10,7 +11,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ValueNotifier<FavoriteShape> _switchNotifier;
   List<Map<String, dynamic>> places = [];
@@ -52,24 +54,32 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Popular Places'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: _buildSwitchGridAndListButton(),
-          ),
-        ],
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          ListViewContent(places: places),
-          GridViewContent(places: places),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Popular Places'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _buildSwitchGridAndListButton(),
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ));
+                },
+                icon: const Icon(Icons.logout_rounded)),
+          ],
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            ListViewContent(places: places),
+            GridViewContent(places: places),
+          ],
+        ));
   }
 
   Widget _buildSwitchGridAndListButton() {
@@ -122,7 +132,7 @@ class GridViewContent extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       children: List.generate(
         places.length,
-            (index) => BaseCard(place: places[index]),
+        (index) => BaseCard(place: places[index]),
       ),
     );
   }

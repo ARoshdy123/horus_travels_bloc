@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 class CTextFormField extends StatelessWidget {
   const CTextFormField({
     super.key,
-    required this.controller,  this.obscureText = false, required this.labelText, required this.prefixIcon,  this.suffixIcon,  this.keyboardType,
+    required this.controller,
+    this.validator,
+    this.obscureText = false, required this.labelText, required this.prefixIcon,  this.suffixIcon,  this.keyboardType,
   });
 final bool? obscureText ;
 final String labelText;
   final Icon prefixIcon;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
 
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator:validator ,
       controller: controller,
         obscureText: obscureText!,
         keyboardType: keyboardType,
