@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_state.dart';
-
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
    // Validates user credentials

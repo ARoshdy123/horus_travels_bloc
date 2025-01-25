@@ -30,7 +30,6 @@ class LoginFormState extends State<LoginForm> {
           .validateUser(emailController.text, passwordController.text);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Form(

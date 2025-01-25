@@ -6,7 +6,6 @@ class GovernmentsPage extends StatelessWidget {
   final List<String> governorates = ["Cairo", "Alexandria", "Luxor"];
 
   GovernmentsPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

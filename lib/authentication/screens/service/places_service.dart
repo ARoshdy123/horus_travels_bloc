@@ -73,7 +73,6 @@ class PlaceService {
     if (placesData != null) {
       return List<Map<String, dynamic>>.from(json.decode(placesData));
     } else {
-      return [];
-    }
+      return [];    }
   }
 }

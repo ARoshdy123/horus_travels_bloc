@@ -192,7 +192,6 @@ class ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
             const SizedBox(height: 32),
-
             // Logout Button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
