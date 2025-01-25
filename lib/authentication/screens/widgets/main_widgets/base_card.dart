@@ -90,8 +90,8 @@ class _BaseCardState extends State<BaseCard> {
 
   Widget _buildTitleAndSubtitle(String name, String governorate) {
     return Positioned(
-      left: 20,
-      bottom: 20,
+      left: 10,
+      bottom: 15,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +100,7 @@ class _BaseCardState extends State<BaseCard> {
             name,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),

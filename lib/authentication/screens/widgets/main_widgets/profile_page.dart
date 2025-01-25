@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:horus_travels_bloc/bloc/theme_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -87,22 +89,16 @@ class ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
         actions: [
-          IconButton(
-            icon: Icon(isEditing ? Icons.check : Icons.edit),
-            onPressed: () {
-              if (isEditing) {
-                _saveProfileData();
-              } else {
-                setState(() {
-                  isEditing = true;
-                });
-              }
+          BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, themeState) {
+              return IconButton(
+                onPressed: () => context.read<ThemeCubit>().changeTheme(),
+                icon: Icon(themeState.themeData.brightness == Brightness.dark
+                    ? Icons.light_mode
+                    : Icons.dark_mode),
+              );
             },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _logout,
-          ),
+          )
         ],
       ),
       body: Padding(
@@ -118,11 +114,11 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             isEditing
                 ? TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: "Enter your name",
-              ),
-            )
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your name",
+                    ),
+                  )
                 : Text(name, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 16),
 
@@ -133,11 +129,11 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             isEditing
                 ? TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                hintText: "Enter your email",
-              ),
-            )
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your email",
+                    ),
+                  )
                 : Text(email, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 16),
 
@@ -148,11 +144,11 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             isEditing
                 ? TextField(
-              controller: phoneController,
-              decoration: const InputDecoration(
-                hintText: "Enter your phone number",
-              ),
-            )
+                    controller: phoneController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your phone number",
+                    ),
+                  )
                 : Text(phone, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 16),
 
@@ -163,43 +159,65 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             isEditing
                 ? TextField(
-              controller: passwordController,
-              obscureText: obscurePassword,
-              decoration: InputDecoration(
-                hintText: "Enter your password",
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  ),
-                  onPressed: _togglePasswordVisibility,
-                ),
-              ),
-            )
+                    controller: passwordController,
+                    obscureText: obscurePassword,
+                    decoration: InputDecoration(
+                      hintText: "Enter your password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordVisibility,
+                      ),
+                    ),
+                  )
                 : Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    obscurePassword ? "******" : passwordController.text,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          obscurePassword ? "******" : passwordController.text,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: _togglePasswordVisibility,
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  ),
-                  onPressed: _togglePasswordVisibility,
-                ),
-              ],
-            ),
             const SizedBox(height: 32),
 
             // Logout Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              onPressed: _logout,
-              child: const Text("Logout"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  onPressed: _logout,
+                  child: const Text("Logout"),
+                ),
+                TextButton.icon(
+                  icon: Icon(isEditing ? Icons.check : Icons.edit),
+                  label: isEditing ? Text('Save') : Text('Edit'),
+                  onPressed: () {
+                    if (isEditing) {
+                      _saveProfileData();
+                    } else {
+                      setState(() {
+                        isEditing = true;
+                      });
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),

@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
           activeColor: Colors.white,
           color: const Color.fromARGB(255, 67, 158, 188),
           iconSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           duration: const Duration(milliseconds: 400),
           tabBackgroundColor: const Color.fromARGB(255, 67, 158, 188),
           tabs: const [

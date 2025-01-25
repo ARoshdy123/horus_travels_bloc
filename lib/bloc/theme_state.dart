@@ -1,6 +1,19 @@
-import 'package:flutter/material.dart';
+part of 'theme_cubit.dart';
 
-class ThemeState {
+@immutable
+abstract class ThemeState {
   final ThemeData themeData;
-  ThemeState({required this.themeData});
+  const ThemeState(this.themeData);
+}
+
+class ThemeInitial extends ThemeState {
+  ThemeInitial() : super(ThemeData.light());
+}
+
+class LightTheme extends ThemeState {
+  LightTheme() : super(ThemeData.light());
+}
+
+class DarkTheme extends ThemeState {
+  DarkTheme() : super(ThemeData.dark());
 }
