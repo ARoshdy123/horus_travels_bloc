@@ -4,10 +4,12 @@ import 'authentication/screens/login_screen.dart';
 import 'authentication/screens/signup_screen.dart';
 import 'authentication/screens/main_screen.dart';
 import 'package:horus_travels_bloc/bloc/theme_cubit.dart';
+
 import 'authentication/screens/widgets/login_widgets/login_cubit.dart';
 void main() {
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
