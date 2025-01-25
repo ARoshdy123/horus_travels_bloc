@@ -12,13 +12,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late ValueNotifier<FavoriteShape> _switchNotifier;
+    late ValueNotifier<FavoriteShape> _switchNotifier;
   List<Map<String, dynamic>> places = [];
   late PlaceService _placeService;
 
   @override
   void initState() {
     super.initState();
+    _switchNotifier = ValueNotifier(FavoriteShape.grid);
+    _tabController = TabController(length: 2, vsync: this);
+
+
     initializePlaceService();
   }
 
@@ -27,8 +31,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _placeService = PlaceService(prefs);
     await _placeService.initializePlaces();
     places = await _placeService.loadPlaces();
-    _switchNotifier = ValueNotifier(FavoriteShape.grid);
-    _tabController = TabController(length: 2, vsync: this);
     setState(() {});
   }
 
