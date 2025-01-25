@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:horus_travels_bloc/authentication/screens/fav_page.dart';
 import 'package:horus_travels_bloc/authentication/screens/gov_screen.dart';
 import 'package:horus_travels_bloc/authentication/screens/home_page.dart';
-
 import 'widgets/main_widgets/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
