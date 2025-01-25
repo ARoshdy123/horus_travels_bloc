@@ -1,38 +1,35 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:horus_travels_bloc/authentication/screens/login_screen.dart';
+import 'package:horus_travels_bloc/authentication/screens/service/places_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/main_widgets/base_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ValueNotifier<FavoriteShape> _switchNotifier;
   List<Map<String, dynamic>> places = [];
+  late PlaceService _placeService;
 
   @override
   void initState() {
     super.initState();
-    _switchNotifier = ValueNotifier(FavoriteShape.grid);
-    _tabController = TabController(length: 2, vsync: this);
-    _loadPlaces(); // Load places from SharedPreferences
+    initializePlaceService();
   }
 
-  Future<void> _loadPlaces() async {
+  void initializePlaceService() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? placesData = prefs.getString('places');
-    if (placesData != null) {
-      setState(() {
-        places = List<Map<String, dynamic>>.from(json.decode(placesData));
-      });
-    }
+    _placeService = PlaceService(prefs);
+    await _placeService.initializePlaces();
+    places = await _placeService.loadPlaces();
+    _switchNotifier = ValueNotifier(FavoriteShape.grid);
+    _tabController = TabController(length: 2, vsync: this);
+    setState(() {});
   }
 
   @override
@@ -68,9 +65,11 @@ class _HomePageState extends State<HomePage>
                       context,
                       MaterialPageRoute(
                         builder: (context) => const LoginScreen(),
-                      ));
+                      )
+                  );
                 },
-                icon: const Icon(Icons.logout_rounded)),
+                icon: const Icon(Icons.logout_rounded)
+            ),
           ],
         ),
         body: TabBarView(
@@ -79,7 +78,8 @@ class _HomePageState extends State<HomePage>
             ListViewContent(places: places),
             GridViewContent(places: places),
           ],
-        ));
+        )
+    );
   }
 
   Widget _buildSwitchGridAndListButton() {
@@ -93,19 +93,14 @@ class _HomePageState extends State<HomePage>
             child: RawMaterialButton(
               onPressed: _switchBetweenGridAndList,
               elevation: 0,
-              visualDensity: const VisualDensity(
-                vertical: -4,
-                horizontal: -4,
-              ),
+              visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
               shape: RoundedRectangleBorder(
                 side: const BorderSide(color: Colors.black, width: 1.2),
                 borderRadius: BorderRadius.circular(5),
               ),
               fillColor: Colors.blue,
               child: Icon(
-                _tabController.index == 0
-                    ? Icons.grid_view_rounded
-                    : Icons.view_agenda_outlined,
+                _tabController.index == 0 ? Icons.grid_view_rounded : Icons.view_agenda_outlined,
                 size: 20,
                 color: Colors.white,
               ),

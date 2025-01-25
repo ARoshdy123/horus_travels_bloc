@@ -18,7 +18,6 @@ class _BaseCardState extends State<BaseCard> {
     super.initState();
     isFavorite = widget.place['isFavorite'] ?? false; // Default to false if not set
   }
-
   Future<void> _toggleFavorite() async {
     setState(() {
       isFavorite = !isFavorite;

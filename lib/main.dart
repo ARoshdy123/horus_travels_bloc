@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Providing multiple Cubits
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),  // Theme Cubit

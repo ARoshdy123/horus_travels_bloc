@@ -5,7 +5,6 @@ import 'widgets/main_widgets/base_card.dart';
 
 class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
-
   @override
   State<FavoritesPage> createState() => _FavoritesPageState();
 }
