@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:horus_travels_bloc/authentication/screens/widgets/login_widgets/login_cubit.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +16,7 @@ class LoginForm extends StatefulWidget {
 class LoginFormState extends State<LoginForm> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _obscureText = true;
 
   // Toggles password visibility
@@ -23,24 +26,29 @@ class LoginFormState extends State<LoginForm> {
     });
   }
 
-  // Validates user credentials
-  Future<bool> validateUser(String email, String password) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final storedEmail = prefs.getString('email');
-    final storedPassword = prefs.getString('password');
-
-    return email == storedEmail && password == storedPassword;
+  validate() {
+    if(formKey.currentState?.validate()??false){
+      BlocProvider.of<LoginCubit>(context)
+          .validateUser(emailController.text, passwordController.text);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32),
         child: Column(
           children: [
             // Email Input Field
             CTextFormField(
+              validator: (value){
+                if (value == null || value.isEmpty){
+                  return "Email cannot be empty";
+                }
+                return null;
+              },
               controller: emailController,
               labelText: 'Email',
               prefixIcon: const Icon(Iconsax.direct_right),
@@ -49,6 +57,12 @@ class LoginFormState extends State<LoginForm> {
 
             // Password Input Field
             CTextFormField(
+              validator: (value){
+                if (value == null || value.isEmpty){
+                  return "Password cannot be empty";
+                }
+                return null;
+              },
               obscureText: _obscureText,
               controller: passwordController,
               labelText: 'Password',
@@ -64,37 +78,29 @@ class LoginFormState extends State<LoginForm> {
 
             // Sign-In Button
             SizedBox(
-              width: MediaQuery.of(context).size.width / 1.5,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  foregroundColor: const Color(0xFFFFFFFF),
-                  backgroundColor: const Color(0xFFFFC300),
-                  disabledForegroundColor: const Color(0xFFB0B0B0),
-                  disabledBackgroundColor: const Color(0xFFFFE082),
-                  side: const BorderSide(color: Color(0xFFFFC300)),
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      foregroundColor: const Color(0xFFFFFFFF),
+                      backgroundColor: const Color(0xFFFFC300),
+                      disabledForegroundColor: const Color(0xFFB0B0B0),
+                      disabledBackgroundColor: const Color(0xFFFFE082),
+                      side: const BorderSide(color: Color(0xFFFFC300)),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      textStyle: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () async {
+                       await validate();
+                    },
+                    child: const Text("Sign in"),
+                  ),
                 ),
-                onPressed: () async {
-                  final isValid = await validateUser(
-                      emailController.text, passwordController.text);
-                  if (isValid) {
-                    Navigator.pushReplacementNamed(context, '/main');
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Invalid credentials!')),
-                    );
-                  }
-                },
-                child: const Text("Sign in"),
-              ),
-            ),
             const SizedBox(height: 16),
 
             // Create Account Button
@@ -110,7 +116,7 @@ class LoginFormState extends State<LoginForm> {
                       color: Color(0xFFFFC300),
                       fontWeight: FontWeight.w600),
                   padding:
-                  const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                      const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
