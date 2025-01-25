@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:horus_travels_bloc/authentication/screens/home_page.dart';
+import 'package:horus_travels_bloc/authentication/screens/main_screen.dart';
 import 'package:horus_travels_bloc/authentication/screens/widgets/login_widgets/login_cubit.dart';
 import 'package:horus_travels_bloc/authentication/screens/widgets/main_widgets/custom_dialog.dart';
 import 'widgets/login_widgets/login_form.dart';
@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
             }
             if (state is LoginAuthenticated) {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+                  MaterialPageRoute(builder: (context) => const MainScreen()));
             }
             // TODO: implement listener
           },

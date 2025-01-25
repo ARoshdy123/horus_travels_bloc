@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:horus_travels_bloc/authentication/screens/widgets/login_widgets/login_cubit.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'custom_text_form_field.dart';
 
 class LoginForm extends StatefulWidget {
@@ -48,6 +46,7 @@ class LoginFormState extends State<LoginForm> {
                   return "Email cannot be empty";
                 }
                 return null;
+
               },
               controller: emailController,
               labelText: 'Email',
