@@ -7,7 +7,6 @@ class PlacesByGovernorate extends StatefulWidget {
   final String governorate;
 
   const PlacesByGovernorate({super.key, required this.governorate});
-
   @override
   State<PlacesByGovernorate> createState() => _PlacesByGovernorateState();
 }

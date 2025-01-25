@@ -6,7 +6,6 @@ import 'widgets/main_widgets/base_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }

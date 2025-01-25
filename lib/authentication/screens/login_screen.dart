@@ -58,7 +58,6 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       /// Logo, Title &subtitle
                       LoginHeader(),
-
                       /// Email& Password
                       LoginForm(),
                       SizedBox(height: 16),

@@ -8,7 +8,6 @@ class SignUpForm extends StatefulWidget {
   const SignUpForm({
     super.key,
   });
-
   @override
   State<SignUpForm> createState() => _SignUpFormState();
 }
