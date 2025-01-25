@@ -5,7 +5,8 @@ import 'authentication/screens/signup_screen.dart';
 import 'authentication/screens/main_screen.dart';
 import 'package:horus_travels_bloc/bloc/theme_cubit.dart';
 
-void main() async {
+import 'authentication/screens/widgets/login_widgets/login_cubit.dart';
+void main() {
   runApp(const MyApp());
 }
 
@@ -14,8 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
+    // Providing multiple Cubits
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ThemeCubit()),  // Theme Cubit
+        BlocProvider(create: (_) => LoginCubit()),  // Login Cubit
+      ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp(
