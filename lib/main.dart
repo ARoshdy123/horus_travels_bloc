@@ -9,7 +9,6 @@ import 'authentication/screens/widgets/login_widgets/login_cubit.dart';
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
