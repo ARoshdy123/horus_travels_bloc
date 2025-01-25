@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:local_hero_transform/local_hero_transform.dart';
-
 import 'widgets/main_widgets/base_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,9 +62,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ],
       ),
-      body: LocalHero(
+      body: TabBarView(
         controller: _tabController,
-        pages: [
+        children: [
           ListViewContent(places: places),
           GridViewContent(places: places),
         ],
@@ -124,7 +122,7 @@ class GridViewContent extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       children: List.generate(
         places.length,
-            (index) => BaseCard( place: places[index]),
+            (index) => BaseCard(place: places[index]),
       ),
     );
   }
@@ -145,13 +143,12 @@ class ListViewContent extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: AspectRatio(
             aspectRatio: 16 / 9,
-            child: BaseCard( place: places[index]),
+            child: BaseCard(place: places[index]),
           ),
         );
       },
     );
   }
 }
-
 
 enum FavoriteShape { grid, list }
